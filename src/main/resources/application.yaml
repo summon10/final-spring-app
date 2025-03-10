@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: myspringapp
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/passport
+    username: root
+    password: IfnnkDHjn!
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  mvc:
+    view:
+      prefix: "/html/"
+      suffix: ".html"
+
+

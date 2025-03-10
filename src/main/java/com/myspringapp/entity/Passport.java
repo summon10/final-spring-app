@@ -4,7 +4,11 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Past;
 import org.hibernate.validator.constraints.Length;
+
+import java.util.Date;
+
 
 @Entity
 public class Passport {
@@ -29,8 +33,12 @@ public class Passport {
     private String city;
 
     Boolean gender;
-    Boolean haveFamily;
-    Boolean haveConviction;
+    Boolean family;
+    Boolean conviction;
+
+    @NotEmpty
+    @Past
+    Date birthDate;
 
 
 }
