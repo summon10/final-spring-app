@@ -46,9 +46,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests( auth -> auth.requestMatchers("/").permitAll()
-                 .requestMatchers("/passport*").authenticated())
-                .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
+                .authorizeHttpRequests( auth -> auth.requestMatchers("/login").permitAll()
+                         .requestMatchers("/passport*").authenticated())
+                .formLogin(AbstractAuthenticationFilterConfigurer::disable)
+                .formLogin(formLogin -> formLogin.defaultSuccessUrl("/passport", true))
+
                 .build();
 
 
