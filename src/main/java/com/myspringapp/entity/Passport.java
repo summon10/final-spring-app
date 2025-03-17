@@ -15,7 +15,7 @@ public class Passport {
 
     @EmbeddedId
     @NotEmpty(message = "Seria and Number required")
-    private PassportPK passporkPK;
+    private PassportPK passportPK;
 
     @Length(max = 45, message = "Too long Name")
     @NotEmpty

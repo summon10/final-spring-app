@@ -1,10 +1,15 @@
 package com.myspringapp.controller;
 
+import com.myspringapp.entity.Passport;
 import com.myspringapp.service.PassportService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class PassportController {
@@ -31,6 +36,28 @@ public class PassportController {
     @GetMapping("/passportView")
     public String passportView(Model model) {
 
+        return "/passportView";
+    }
+
+    @PostMapping("/passportView")
+    public String passportViewChange(Model model, @RequestParam(value = "action") String action) {
+        System.out.println(action);
+        switch (action) {
+            case "getAll":
+            {
+                List<Passport> passports = passportServiceImpl.getAllPassports();
+                model.addAttribute("passports", passports);
+            }
+        }
+
+        return "/passportView";
+    }
+
+    @PostMapping("/passportView/getAll")
+    public String passportViewGetAll(Model model) {
+        List<Passport> passports = passportServiceImpl.getAllPassports();
+        model.addAttribute("passports", passports);
+        System.out.println(passports);
         return "passportView";
     }
 

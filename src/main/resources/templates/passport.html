@@ -1,11 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Passport detail page</title>
+    <img th:src="@{/img/Russian_passport.jpg}"/>
+
+
 </head>
 <body>
+
+<h1>Passport Database</h1>
+
+
+<a th:href="@{/passportView}" class ="btn btn-primary mb-3"> Просмотр и редактирование </a>
+<br>
+<a th:href="@{/passportNew}" class ="btn btn-primary mb-3"> Создать новый паспорт </a>
+
 
 </body>
 </html>
