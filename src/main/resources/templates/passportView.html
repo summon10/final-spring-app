@@ -13,21 +13,37 @@
 <h2> просмотр существующих паспортов</h2>
 <form th:action="@{/passportView}" method="post">
 
-        <select th:name="action">
-            <option value="getAll">Посмотреть все паспорта</option>
-            <option value="getById">Выбрать по серии,номеру</option>
+    <select th:name="action">
+        <option value="getAll" >Посмотреть все паспорта</option>
+       <option value="getById">Выбрать по серии,номеру</option>
 
-        </select>
-
-    <button type="submit" th:onclick="showAlert()">Выбор</button>
+    </select>
+    <button id="chooseButt" type="submit" onclick="">Выбор</button>
 </form>
-<table hidden id="table1" class = "table table-striped table responsive-md">
+
+<form th:action="@{/passportView/getById}" method="post">
+<label>Введите серию
+    <input type="text" th:name="seria" placeholder="Серия" />
+</label>
+<label>Введите номер
+    <<input type="text" th:name="number" placeholder="Номер"/>
+</label>
+    <button id="chooseByPassportPK" type="submit">Выбрать</button>
+</form>
+
+<table  id="table1" class = "table table-striped table responsive-md">
     <thread class = "thread-dark">
 
 <tr>
-    <th>name</th>
-    <th>Salary</th>
-    <th>Action</th>
+    <th>Серия и Номер</th>
+    <th>Имя</th>
+    <th>Фамилия</th>
+    <th>Отчество</th>
+    <th>Город прописки</th>
+    <th>Пол</th>
+    <th>Семенйное положение</th>
+    <th>Наличие судимости</th>
+    <th>Дата рождения</th>
 
 
 </tr>
@@ -37,6 +53,14 @@
 <tr th:each="passport:${passports}">
     <td th:text ="${passport.passportPK}"></td>
     <td th:text ="${passport.name}"></td>
+    <td th:text ="${passport.surname}"></td>
+    <td th:text ="${passport.secondName}"></td>
+    <td th:text ="${passport.city}"></td>
+    <td th:text ="${passport.gender}"></td>
+    <td th:text ="${passport.family}"></td>
+    <td th:text ="${passport.conviction}"></td>
+    <td th:text ="${passport.birthDate}"></td>
+
     <td>
         <a th:href="@{/passportEdit}"
            class = "btn btn-primary btn-sm"> Update </a>
