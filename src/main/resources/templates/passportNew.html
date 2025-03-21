@@ -8,6 +8,65 @@
     <title>Create new passport page</title>
 </head>
 <body>
+<form th:action="@{passportNew}" th:object="${passport}" method="post">
+    <div class="form-group">
+        <label for="Seria">Seria</label>
+        <input class="form-control" type="text"  th:field="*{passportPK.seria}" id="Seria" >
 
+    </div>
+
+    <div class="form-group">
+        <label for="Number">Number</label>
+        <input class="form-control" type="text"  th:field="*{passportPK.number}" id="Number" >
+
+    </div>
+
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <input class="form-control" type="text"  th:field="*{name}" id="Name" >
+        <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="Surname">Surname</label>
+        <input class="form-control" type="text"  th:field="*{surname}" id="Surname" >
+        <div class="alert alert-warning" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="secondName">Second Name</label>
+        <input class="form-control" type="text"  th:field="*{secondName}" id="secondName" >
+        <div class="alert alert-warning" th:if="${#fields.hasErrors('secondName')}" th:errors="*{secondName}"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="City">City</label>
+        <input class="form-control" type="text"  th:field="*{city}" id="City" >
+        <div class="alert alert-warning" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
+    </div>
+
+    <label> Gender
+    <div class="radio-container">
+
+            <input type="radio" name="gender" value="m" checked> Male<br>
+            <input type="radio" name="gender" value="f"> Female<br>
+
+    </div>
+    </label>
+    <div class="form-group">
+    <label>Have Family</label>
+    <input type="checkbox" th:field="*{family}" />
+    </div>
+    <div class="form-group">
+    <label>Conviction</label>
+    <input type="checkbox" th:field="*{conviction}" />
+    </div>
+    <div>
+        <label for="birthDate">Date of birth:</label>
+        <input type="date" th:field="${passport.birthDate}" id="birthDate"/>
+    </div>
+    <button type = "submit" class="btn btn info">Add New Passport </button>
+
+</form>
 </body>
 </html>

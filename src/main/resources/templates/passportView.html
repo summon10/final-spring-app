@@ -15,7 +15,8 @@
 
     <select th:name="action">
         <option value="getAll" >Посмотреть все паспорта</option>
-       <option value="getById">Выбрать по серии,номеру</option>
+        <option value="getByHavingFamily">Имеет семью</option>
+        <option value="getByHavingConviction">Имеет судимость</option>
 
     </select>
     <button id="chooseButt" type="submit" onclick="">Выбор</button>
@@ -31,8 +32,30 @@
     <button id="chooseByPassportPK" type="submit">Выбрать</button>
 </form>
 
+<form th:action="@{/passportView/getBySurname}" method="post">
+    <label>Введите имя
+        <input type="text" th:name="surname" placeholder="Фамилия" />
+    </label>
+    <button id="chooseBySurname" type="submit">Выбрать</button>
+</form>
+
+<form th:action="@{/passportView/getByFIO}" method="post">
+    <label>Введите имя
+        <input type="text" th:name="fullName" placeholder="Имя Фамилия Отчество (при наличии)" />
+    </label>
+
+    <button id="chooseByFIO" type="submit">Выбрать</button>
+</form>
+
+<form th:action="@{/passportView/getByCity}" method="post">
+    <label>Введите город
+        <input type="text" th:name="city" placeholder="Город" />
+    </label>
+    <button id="chooseByCity" type="submit">Выбрать</button>
+</form>
+
 <table  id="table1" class = "table table-striped table responsive-md">
-    <thread class = "thread-dark">
+    <thead class = "thread-dark">
 
 <tr>
     <th>Серия и Номер</th>
@@ -47,7 +70,7 @@
 
 
 </tr>
-</thread>
+</thead>
 
 <tbody>
 <tr th:each="passport:${passports}">
@@ -62,7 +85,7 @@
     <td th:text ="${passport.birthDate}"></td>
 
     <td>
-        <a th:href="@{/passportEdit}"
+        <a th:href="@{/passportEdit/{id}(id=${passport.passportPK})}"
            class = "btn btn-primary btn-sm"> Update </a>
 
 

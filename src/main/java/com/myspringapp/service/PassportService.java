@@ -11,8 +11,11 @@ public interface PassportService {
     void savePassport(Passport passport);
     void deletePassport(PassportPK passportPK);
     Passport getPassportById(PassportPK passportPK);
-    List <Passport> getPassportsByNames(String name, String surname, String secondName);
+    List <Passport> getPassportsByNames(String ...names);
+    List <Passport> getPassportsByName(String name);
     List <Passport> getPassportsByConviction(Boolean conviction);
     List <Passport> getPassportsBySurname(String surname);
     List <Passport> getPassportsByBirthdayToday();
+    List <Passport> getPassportsByCity(String city);
+    List <Passport> getPassportsByHavingFamily(Boolean havingFamily);
 }

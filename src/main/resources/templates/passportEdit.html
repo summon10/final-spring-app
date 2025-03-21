@@ -8,6 +8,42 @@
     <title>PassportEdit employee Only</title>
 </head>
 <body>
+<h1> Passport Edition</h1>
+
+<form th:action="@{/passportEdit}" th:object="${passport}" method="post" class="form">
+    <input type="hidden" th:field="*{passportPK.number}">
+    <input type="hidden" th:field="*{passportPK.seria}">
+    <input type="hidden" th:field="*{gender}">
+    <input type="hidden" th:field="*{family}">
+    <input type="date" hidden="hidden" th:field="*{birthDate}">
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <input class="form-control" type="text"  th:field="*{name}" id="Name" >
+        <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    </div>
+    <div class="form-group">
+        <label for="Surname">Surname</label>
+        <input class="form-control" type="text" th:field="*{surname}" id="Surname" placeholder="Surname">
+        <div class="alert alert-warning" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
+    </div>
+    <div class="form-group">
+        <label for="SecondName">Second Name</label>
+        <input class="form-control" type="text" th:field="*{secondName}" id="SecondName" placeholder="Second Name">
+        <div class="alert alert-warning" th:if="${#fields.hasErrors('secondName')}" th:errors="*{secondName}"></div>
+    </div>
+    <div class="form-group">
+        <label for="City">City</label>
+        <input class="form-control" type="text" th:field="*{city}" id="City" placeholder="City">
+        <div class="alert alert-warning" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
+    </div>
+    <div class="form-group">
+        <label>Conviction</label>
+        <input type="checkbox" th:field="*{conviction}" />
+
+    </div>
+
+    <input type="submit" class="btn btn-success" value="Update Passport">
+</form>
 
 </body>
 </html>

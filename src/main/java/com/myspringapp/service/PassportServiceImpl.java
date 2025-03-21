@@ -6,6 +6,7 @@ import com.myspringapp.repository.PassportRepo;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -50,9 +51,27 @@ public class PassportServiceImpl implements PassportService {
     }
 
     @Override
-    public List<Passport> getPassportsByNames(String name, String surname, String secondName) {
-        return passportRepo.findPassportsByFIO(name, surname, secondName);
+    public List<Passport> getPassportsByNames(String ...names) {
+
+        List<String> validNames = Arrays.stream(names).toList();
+        switch(validNames.size()) {
+            case 0: throw new RuntimeException ("Passport not found!");
+            case 1: return passportRepo.findPassportsByName(validNames.get(0));
+            case 2: return passportRepo.findPassportsByFI(validNames.get(0), validNames.get(1));
+            default: return passportRepo.findPassportsByFIO(validNames.get(0), validNames.get(1), validNames.get(2));
+        }
+
     }
+
+    public List<Passport> getPassportsByCity(String city) {
+        return passportRepo.getPassportsByCity(city);
+    }
+
+    @Override
+    public List<Passport> getPassportsByHavingFamily(Boolean havingFamily) {
+        return passportRepo.getPassportsByFamily(havingFamily);
+    }
+
 
     @Override
     public List<Passport> getPassportsByConviction(Boolean conviction) {
@@ -62,6 +81,11 @@ public class PassportServiceImpl implements PassportService {
     @Override
     public List<Passport> getPassportsBySurname(String surname) {
         return passportRepo.findAllBySurname(surname);
+    }
+
+    @Override
+    public List<Passport> getPassportsByName(String name) {
+        return passportRepo.findAllByName(name);
     }
 
     @Override

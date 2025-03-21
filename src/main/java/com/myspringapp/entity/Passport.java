@@ -8,7 +8,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -20,7 +22,7 @@ public class Passport {
     private PassportPK passportPK;
 
     @Length(max = 45, message = "Too long Name")
-    @NotEmpty
+    @NotEmpty (message = "Имя не должно быть пустым!")
     private String name;
 
     @Length(max = 45, message = "Too long Surname")
@@ -28,19 +30,20 @@ public class Passport {
     private String surname;
 
     @Length(max = 45, message = "Too long Second Name")
-    @NotEmpty
+
     private String secondName;
 
     @Length(max = 45, message = "Too long City Name")
     private String city;
 
-    Character gender;
-    Boolean family;
-    Boolean conviction;
+    private Character gender;
+    private Boolean family;
+    private Boolean conviction;
 
     @NotNull
     @Past
-    Date birthDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthDate;
 
 
 }
