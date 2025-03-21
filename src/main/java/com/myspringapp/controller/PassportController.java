@@ -135,6 +135,22 @@ public class PassportController {
         return "passportEdit";
     }
 
+    @GetMapping("/passportDelete/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public String passportDelete(@PathVariable(value = "id") String id,
+                               Model model,
+                               Passport passport
+    ) {
+        String[] parts = id.split("[,\\s]+");
+        PassportPK passportPK = new PassportPK();
+        passportPK.setSeria(Integer.parseInt(parts[0]));
+        passportPK.setNumber(Integer.parseInt(parts[1]));
+
+        passportServiceImpl.deletePassport(passportPK);
+        System.out.println("Deleted successfully");
+        return "passportView";
+    }
+
     @PostMapping("/passportEdit")
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public String passportUpdate(@Valid @ModelAttribute ("passport") Passport passport,
