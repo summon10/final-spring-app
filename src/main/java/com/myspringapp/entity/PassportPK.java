@@ -5,13 +5,16 @@ import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 
 @Embeddable
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class PassportPK implements Serializable {
 
     @Digits(integer = 4, fraction = 0)

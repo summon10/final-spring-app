@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,7 +16,22 @@ import java.util.Date;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Passport {
+
+    public Passport(PassportPK passportPK, String name, String surname, String secondName, String city,
+                    Character gender,
+                    Boolean family, Boolean conviction, LocalDate birthDate) {
+        this.passportPK = passportPK;
+        this.name = name;
+        this.surname = surname;
+        this.secondName = secondName;
+        this.city = city;
+        this.gender = gender;
+        this.family = family;
+        this.conviction = conviction;
+        this.birthDate = birthDate;
+    }
 
     @EmbeddedId
 
