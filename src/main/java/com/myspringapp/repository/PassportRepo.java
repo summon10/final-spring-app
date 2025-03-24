@@ -34,4 +34,5 @@ public interface PassportRepo extends JpaRepository<Passport, PassportPK> {
     List<Passport> getPassportsByCity(@Length(max = 45, message = "Too long City Name") String city);
 
     List<Passport> getPassportsByFamily(Boolean family);
+
 }

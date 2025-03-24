@@ -72,6 +72,11 @@ public class PassportServiceImpl implements PassportService {
         return passportRepo.getPassportsByFamily(havingFamily);
     }
 
+    @Override
+    public List<Passport> getPassportsByHavingConviction(Boolean havingConviction) {
+        return passportRepo.findPassportsByConviction(havingConviction);
+    }
+
 
     @Override
     public List<Passport> getPassportsByConviction(Boolean conviction) {

@@ -1,20 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <head>
     <meta charset="UTF-8">
     <title>Passport details</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/showHidden.js"></script>
 </head>
 <body>
-<script type="text/javascript" th:src="@{/js/showHidden.js}"></script>
-<h2> просмотр существующих паспортов</h2>
+<script>
+    function showHidden() {
+        //  document.getElementById("getByPassportPK").hidden = false;
+        const select = document.getElementById("selection");
+        const selectVal = select.options[select.selectedIndex].value;
+        document.getElementById(selectVal).hidden=false;
+    }
+</script>
+
+
+<h2> Просмотр существующих паспортов</h2>
 <form th:action="@{/passportView}" method="post">
 
-    <select th:name="action">
+    <select id="selection" th:name="action" onchange="showHidden()">
         <option value="getAll" >Посмотреть все паспорта</option>
+        <option value="getByPassportPK"> Выбрать по серии/номеру </option>
+        <option value="getBySurname"> Выбрать по Фамилии </option>
+        <option value="getByFIO"> Выбрать по ФИО </option>
+        <option value="getByCity"> Выбрать по городу </option>
         <option value="getByHavingFamily">Имеет семью</option>
         <option value="getByHavingConviction">Имеет судимость</option>
 
@@ -22,32 +35,34 @@
     <button id="chooseButt" type="submit" onclick="">Выбор</button>
 </form>
 
-<form th:action="@{/passportView/getById}" method="post">
+
+<form id="getByPassportPK" hidden th:action="@{/passportView/getById}" method="post">
 <label>Введите серию
     <input type="text" th:name="seria" placeholder="Серия" />
 </label>
 <label>Введите номер
     <<input type="text" th:name="number" placeholder="Номер"/>
 </label>
-    <button id="chooseByPassportPK" type="submit">Выбрать</button>
+    <button type="submit">Выбрать</button>
 </form>
 
-<form th:action="@{/passportView/getBySurname}" method="post">
-    <label>Введите имя
+
+<form id="getBySurname" hidden th:action="@{/passportView/getBySurname}" method="post">
+    <label>Введите Фамилию
         <input type="text" th:name="surname" placeholder="Фамилия" />
     </label>
     <button id="chooseBySurname" type="submit">Выбрать</button>
 </form>
 
-<form th:action="@{/passportView/getByFIO}" method="post">
-    <label>Введите имя
+<form id="getByFIO" hidden th:action="@{/passportView/getByFIO}" method="post">
+    <label>Введите ФИО через пробел
         <input type="text" th:name="fullName" placeholder="Имя Фамилия Отчество (при наличии)" />
     </label>
 
     <button id="chooseByFIO" type="submit">Выбрать</button>
 </form>
 
-<form th:action="@{/passportView/getByCity}" method="post">
+<form id="getByCity" hidden th:action="@{/passportView/getByCity}" method="post">
     <label>Введите город
         <input type="text" th:name="city" placeholder="Город" />
     </label>

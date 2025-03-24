@@ -64,6 +64,15 @@ public class PassportController {
         return "passportView";
     }
 
+    @GetMapping("/passportView/getByHavingConviction")
+    public String passportViewGetByHavingConviction(Model model) {
+        List<Passport> passports = passportServiceImpl.getPassportsByHavingConviction(true);
+        model.addAttribute("passports", passports);
+
+        return "passportView";
+    }
+
+
     @PostMapping("/passportView/getById")
     public String passportViewGetById(Model model,
                                      @Valid @RequestParam(value = "seria", required = true) Integer seria,
@@ -162,10 +171,8 @@ public class PassportController {
             return "passportEdit";
         }
 
-        System.out.println(birthDate);
-        System.out.println(passport);
-       passportServiceImpl.savePassport(passport);
-        System.out.println("Edition Success");
+        passportServiceImpl.savePassport(passport);
+
         return "passportView";
     }
 

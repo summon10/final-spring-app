@@ -18,4 +18,6 @@ public interface PassportService {
     List <Passport> getPassportsByBirthdayToday();
     List <Passport> getPassportsByCity(String city);
     List <Passport> getPassportsByHavingFamily(Boolean havingFamily);
+
+    List<Passport> getPassportsByHavingConviction(Boolean havingConviction);
 }
