@@ -2,8 +2,12 @@ package com.myspringapp.controller;
 
 import com.myspringapp.entity.Passport;
 import com.myspringapp.entity.PassportPK;
+import com.myspringapp.service.PassportPageService;
 import com.myspringapp.service.PassportService;
+import com.myspringapp.service.PassportServiceImpl;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -13,14 +17,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 public class PassportController {
 
     private final PassportService passportServiceImpl;
+    private final PassportPageService pps;
 
-    public PassportController(PassportService passportService) {
+    public PassportController(PassportService passportService, PassportPageService pps) {
         this.passportServiceImpl = passportService;
+        this.pps = pps;
     }
 
 
@@ -49,9 +58,25 @@ public class PassportController {
     }
 
     @GetMapping("/passportView/getAll")
-    public String passportViewGetAll(Model model) {
-        List<Passport> passports = passportServiceImpl.getAllPassports();
-        model.addAttribute("passports", passports);
+    public String passportViewGetAll(Model model,
+                                     @RequestParam("page") Optional<Integer> page,
+                                     @RequestParam("size") Optional<Integer> size
+    ) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(3);
+        Page <Passport> passportPage;
+        passportPage = passportServiceImpl.findPaginated(PageRequest.of(currentPage - 1, pageSize),passportServiceImpl.getAllPassports());
+        model.addAttribute("passportPage", passportPage);
+
+        int totalPages = passportPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+      //  List<Passport> passports = passportServiceImpl.getAllPassports();
+       // model.addAttribute("passports", passports);
       //  System.out.println(passports);
         return "passportView";
     }

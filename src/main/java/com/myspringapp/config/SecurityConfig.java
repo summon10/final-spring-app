@@ -48,8 +48,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( auth -> auth.requestMatchers("/login","/img*/**",
                                 "/js/**").permitAll()
-                         .requestMatchers("/passport*/*", "/passport", "/passport*", "/passportView", "/passportEdit/**").authenticated()
-                       // .anyRequest().permitAll()
+                         .requestMatchers("/passport*/*", "/passport", "/passport*", "/passportView/**", "/passportEdit/**").authenticated()
+      //
+                        // .anyRequest().permitAll()
                 )
 
                 .formLogin(AbstractAuthenticationFilterConfigurer::disable)

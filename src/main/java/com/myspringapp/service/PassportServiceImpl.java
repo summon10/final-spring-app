@@ -3,13 +3,14 @@ package com.myspringapp.service;
 import com.myspringapp.entity.Passport;
 import com.myspringapp.entity.PassportPK;
 import com.myspringapp.repository.PassportRepo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PassportServiceImpl implements PassportService {
@@ -19,7 +20,6 @@ public class PassportServiceImpl implements PassportService {
     public PassportServiceImpl(PassportRepo passportRepo) {
         this.passportRepo = passportRepo;
     }
-
 
     @Override
     public List<Passport> getAllPassports() {
@@ -79,11 +79,6 @@ public class PassportServiceImpl implements PassportService {
 
 
     @Override
-    public List<Passport> getPassportsByConviction(Boolean conviction) {
-        return passportRepo.findPassportsByConviction(conviction);
-    }
-
-    @Override
     public List<Passport> getPassportsBySurname(String surname) {
         return passportRepo.findAllBySurname(surname);
     }
@@ -97,5 +92,26 @@ public class PassportServiceImpl implements PassportService {
     public List<Passport> getPassportsByBirthdayToday() {
         LocalDate currentDate = LocalDate.now();
         return passportRepo.getPassportsByBirthDate(currentDate);
+    }
+    @Override
+    public Page<Passport> findPaginated(Pageable pageable, List<Passport> passports) {
+        //List<Passport> passports = passportRepo.findAll();
+
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Passport> list;
+
+        if (passports.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, passports.size());
+            list = passports.subList(startItem, toIndex);
+        }
+
+        Page<Passport> passportPage
+                = new PageImpl<Passport>(list, PageRequest.of(currentPage, pageSize), passports.size());
+
+        return passportPage;
     }
 }

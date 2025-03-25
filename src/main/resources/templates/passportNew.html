@@ -65,7 +65,8 @@
         <input type="date" th:field="${passport.birthDate}" id="birthDate"/>
     </div>
     <button type = "submit" class="btn btn-success">Add New Passport </button>
-
+        <a th:href="@{/passport}"
+           class = "btn btn btn-secondary btn-sm"> Back </a>
 </form>
 </body>
 </html>
