@@ -1,6 +1,8 @@
 package com.myspringapp.service;
 
 import com.myspringapp.entity.Passport;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -18,11 +20,15 @@ public class GetPassportPage {
 
     private final PassportService passportServiceImpl;
 
+    @Getter
+    @Setter
+    private Optional<Integer> size = Optional.empty();
+
       public GetPassportPage(PassportService passportServiceImpl) {
         this.passportServiceImpl = passportServiceImpl;
     }
 
-    public Optional<Integer> size = Optional.empty();
+
 
         public Page<Passport> getPage(Optional<Integer> page, List<Passport> passports) {
 

@@ -43,8 +43,8 @@ public class PassportController {
 
     @PostMapping("/passportView/setSize")
     public String passportPageSizeChange(Model model, @RequestParam(value = "size") Optional<Integer> size) {
-        System.out.println(size);
-        getPassportPage.size = size;
+
+        getPassportPage.setSize(size);
         return "redirect:/passportView";
     }
 
