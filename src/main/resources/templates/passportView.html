@@ -118,7 +118,7 @@
 </table>
 <div th:if="${passportPage.totalPages > 0}" class="pagination"
      th:each="pageNumber : ${pageNumbers}">
-    <a th:href="@{/passportView/getAll(size=${passportPage.size}, page=${pageNumber})}"
+    <a th:href="@{''(size=${passportPage.size}, page=${pageNumber})}"
        th:text=${pageNumber}
        th:class="${pageNumber==passportPage.number + 1} ? active"></a>
 </div>

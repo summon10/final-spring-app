@@ -1,13 +1,11 @@
 package com.myspringapp.controller;
 
+import com.myspringapp.service.GetPassportPage;
 import com.myspringapp.entity.Passport;
 import com.myspringapp.entity.PassportPK;
-import com.myspringapp.service.PassportPageService;
 import com.myspringapp.service.PassportService;
-import com.myspringapp.service.PassportServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -18,18 +16,17 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Controller
 public class PassportController {
 
     private final PassportService passportServiceImpl;
-    private final PassportPageService pps;
+    private final GetPassportPage getPassportPage;
 
-    public PassportController(PassportService passportService, PassportPageService pps) {
+    public PassportController(PassportService passportService, GetPassportPage getPassportPage) {
         this.passportServiceImpl = passportService;
-        this.pps = pps;
+
+        this.getPassportPage = getPassportPage;
     }
 
 
@@ -62,37 +59,37 @@ public class PassportController {
                                      @RequestParam("page") Optional<Integer> page,
                                      @RequestParam("size") Optional<Integer> size
     ) {
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(3);
-        Page <Passport> passportPage;
-        passportPage = passportServiceImpl.findPaginated(PageRequest.of(currentPage - 1, pageSize),passportServiceImpl.getAllPassports());
+
+        Page <Passport> passportPage = getPassportPage.getPage(page,size,passportServiceImpl.getAllPassports());
         model.addAttribute("passportPage", passportPage);
 
-        int totalPages = passportPage.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
-      //  List<Passport> passports = passportServiceImpl.getAllPassports();
-       // model.addAttribute("passports", passports);
-      //  System.out.println(passports);
+        List <Integer> pageNumbers = getPassportPage.getPageCount(passportPage);
+        model.addAttribute("pageNumbers", pageNumbers);
+
         return "passportView";
     }
 
     @GetMapping("/passportView/getByHavingFamily")
-    public String passportViewGetByHavingFamily(Model model) {
-        List<Passport> passports = passportServiceImpl.getPassportsByHavingFamily(true);
-        model.addAttribute("passports", passports);
+    public String passportViewGetByHavingFamily(Model model,
+                                                @RequestParam("page") Optional<Integer> page,
+                                                @RequestParam("size") Optional<Integer> size) {
+
+        Page <Passport> passportPage = getPassportPage.getPage(page,size,passportServiceImpl.getPassportsByHavingFamily(true));
+        model.addAttribute("passportPage", passportPage);
+        List <Integer> pageNumbers = getPassportPage.getPageCount(passportPage);
+        model.addAttribute("pageNumbers", pageNumbers);
 
         return "passportView";
     }
 
     @GetMapping("/passportView/getByHavingConviction")
-    public String passportViewGetByHavingConviction(Model model) {
-        List<Passport> passports = passportServiceImpl.getPassportsByHavingConviction(true);
-        model.addAttribute("passports", passports);
+    public String passportViewGetByHavingConviction(Model model,
+                                                     @RequestParam("page") Optional<Integer> page,
+                                                    @RequestParam("size") Optional<Integer> size) {
+        Page <Passport> passportPage = getPassportPage.getPage(page,size,passportServiceImpl.getPassportsByHavingConviction(true));
+        model.addAttribute("passportPage", passportPage);
+        List <Integer> pageNumbers = getPassportPage.getPageCount(passportPage);
+        model.addAttribute("pageNumbers", pageNumbers);
 
         return "passportView";
     }
@@ -120,35 +117,44 @@ public class PassportController {
 
      @PostMapping("/passportView/getBySurname")
     public String passportViewGetBySurname(Model model,
-                                        @Valid @RequestParam(value = "surname", required = true) String surname
+                                        @Valid @RequestParam(value = "surname", required = true) String surname,
+                                           @RequestParam("page") Optional<Integer> page,
+                                           @RequestParam("size") Optional<Integer> size)
 
-    ) {
+     {
 
-        List <Passport> passports= passportServiceImpl.getPassportsBySurname(surname);
-        model.addAttribute("passports", passports);
-        System.out.println(passports.toString());
+        Page <Passport> passportPage = getPassportPage.getPage(page,size,passportServiceImpl.getPassportsBySurname(surname));
+        model.addAttribute("passportPage", passportPage);
+        List <Integer> pageNumbers = getPassportPage.getPageCount(passportPage);
+        model.addAttribute("pageNumbers", pageNumbers);
         return "passportView";
     }
 
     @PostMapping("/passportView/getByFIO")
     public String passportViewGetByFIO(Model model,
-                                           @Valid @RequestParam(value = "fullName", required = true) String fullName
-
+                                           @Valid @RequestParam(value = "fullName", required = true) String fullName,
+                                            @RequestParam("page") Optional<Integer> page,
+                                       @RequestParam("size") Optional<Integer> size
     ) {
         String[] parts = fullName.split("[,\\s]+");
-        List <Passport> passports= passportServiceImpl.getPassportsByNames(parts);
-        model.addAttribute("passports", passports);
-        System.out.println(passports.toString());
+        Page <Passport> passportPage = getPassportPage.getPage(page,size,passportServiceImpl.getPassportsByNames(parts));
+        model.addAttribute("passportPage", passportPage);
+        List <Integer> pageNumbers = getPassportPage.getPageCount(passportPage);
+        model.addAttribute("pageNumbers", pageNumbers);
         return "passportView";
     }
 
     @PostMapping("/passportView/getByCity")
     public String passportViewGetByCity(Model model,
-                                           @Valid @RequestParam(value = "city", required = true) String city
+                                           @Valid @RequestParam(value = "city", required = true) String city,
+                                           @RequestParam("page") Optional<Integer> page,
+                                           @RequestParam("size") Optional<Integer> size
     ) {
-        List <Passport> passports= passportServiceImpl.getPassportsByCity(city);
-        model.addAttribute("passports", passports);
-        System.out.println(passports.toString());
+        Page <Passport> passportPage = getPassportPage.getPage(page,size,passportServiceImpl.getPassportsByCity(city));
+        model.addAttribute("passportPage", passportPage);
+        List <Integer> pageNumbers = getPassportPage.getPageCount(passportPage);
+        model.addAttribute("pageNumbers", pageNumbers);
+
         return "passportView";
     }
 

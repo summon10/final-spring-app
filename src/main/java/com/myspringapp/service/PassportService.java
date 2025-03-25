@@ -21,5 +21,5 @@ public interface PassportService {
     List <Passport> getPassportsByHavingFamily(Boolean havingFamily);
 
     List<Passport> getPassportsByHavingConviction(Boolean havingConviction);
-    Page<Passport> findPaginated(Pageable pageable, List<Passport> passports);
+
 }

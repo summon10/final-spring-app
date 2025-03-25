@@ -93,25 +93,6 @@ public class PassportServiceImpl implements PassportService {
         LocalDate currentDate = LocalDate.now();
         return passportRepo.getPassportsByBirthDate(currentDate);
     }
-    @Override
-    public Page<Passport> findPaginated(Pageable pageable, List<Passport> passports) {
-        //List<Passport> passports = passportRepo.findAll();
 
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-        List<Passport> list;
 
-        if (passports.size() < startItem) {
-            list = Collections.emptyList();
-        } else {
-            int toIndex = Math.min(startItem + pageSize, passports.size());
-            list = passports.subList(startItem, toIndex);
-        }
-
-        Page<Passport> passportPage
-                = new PageImpl<Passport>(list, PageRequest.of(currentPage, pageSize), passports.size());
-
-        return passportPage;
-    }
 }
