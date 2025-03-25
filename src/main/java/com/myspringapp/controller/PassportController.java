@@ -29,13 +29,6 @@ public class PassportController {
         this.getPassportPage = getPassportPage;
     }
 
-
-    /*@GetMapping("/")
-    public String welcome(Model model) {
-
-        return "passport";
-    }*/
-
     @GetMapping("/passport")
     public String passportWelcome(Model model) {
 
@@ -46,6 +39,13 @@ public class PassportController {
     public String passportView(Model model) {
 
         return "/passportView";
+    }
+
+    @PostMapping("/passportView/setSize")
+    public String passportPageSizeChange(Model model, @RequestParam(value = "size") Optional<Integer> size) {
+        System.out.println(size);
+        getPassportPage.size = size;
+        return "redirect:/passportView";
     }
 
     @PostMapping("/passportView")
@@ -60,7 +60,7 @@ public class PassportController {
                                      @RequestParam("size") Optional<Integer> size
     ) {
 
-        Page <Passport> passportPage = getPassportPage.getPage(page,size,passportServiceImpl.getAllPassports());
+        Page <Passport> passportPage = getPassportPage.getPage(page,passportServiceImpl.getAllPassports());
         model.addAttribute("passportPage", passportPage);
 
         List <Integer> pageNumbers = getPassportPage.getPageCount(passportPage);
@@ -74,7 +74,7 @@ public class PassportController {
                                                 @RequestParam("page") Optional<Integer> page,
                                                 @RequestParam("size") Optional<Integer> size) {
 
-        Page <Passport> passportPage = getPassportPage.getPage(page,size,passportServiceImpl.getPassportsByHavingFamily(true));
+        Page <Passport> passportPage = getPassportPage.getPage(page,passportServiceImpl.getPassportsByHavingFamily(true));
         model.addAttribute("passportPage", passportPage);
         List <Integer> pageNumbers = getPassportPage.getPageCount(passportPage);
         model.addAttribute("pageNumbers", pageNumbers);
@@ -86,7 +86,7 @@ public class PassportController {
     public String passportViewGetByHavingConviction(Model model,
                                                      @RequestParam("page") Optional<Integer> page,
                                                     @RequestParam("size") Optional<Integer> size) {
-        Page <Passport> passportPage = getPassportPage.getPage(page,size,passportServiceImpl.getPassportsByHavingConviction(true));
+        Page <Passport> passportPage = getPassportPage.getPage(page,passportServiceImpl.getPassportsByHavingConviction(true));
         model.addAttribute("passportPage", passportPage);
         List <Integer> pageNumbers = getPassportPage.getPageCount(passportPage);
         model.addAttribute("pageNumbers", pageNumbers);
@@ -123,7 +123,7 @@ public class PassportController {
 
      {
 
-        Page <Passport> passportPage = getPassportPage.getPage(page,size,passportServiceImpl.getPassportsBySurname(surname));
+        Page <Passport> passportPage = getPassportPage.getPage(page,passportServiceImpl.getPassportsBySurname(surname));
         model.addAttribute("passportPage", passportPage);
         List <Integer> pageNumbers = getPassportPage.getPageCount(passportPage);
         model.addAttribute("pageNumbers", pageNumbers);
@@ -137,7 +137,7 @@ public class PassportController {
                                        @RequestParam("size") Optional<Integer> size
     ) {
         String[] parts = fullName.split("[,\\s]+");
-        Page <Passport> passportPage = getPassportPage.getPage(page,size,passportServiceImpl.getPassportsByNames(parts));
+        Page <Passport> passportPage = getPassportPage.getPage(page,passportServiceImpl.getPassportsByNames(parts));
         model.addAttribute("passportPage", passportPage);
         List <Integer> pageNumbers = getPassportPage.getPageCount(passportPage);
         model.addAttribute("pageNumbers", pageNumbers);
@@ -150,7 +150,7 @@ public class PassportController {
                                            @RequestParam("page") Optional<Integer> page,
                                            @RequestParam("size") Optional<Integer> size
     ) {
-        Page <Passport> passportPage = getPassportPage.getPage(page,size,passportServiceImpl.getPassportsByCity(city));
+        Page <Passport> passportPage = getPassportPage.getPage(page,passportServiceImpl.getPassportsByCity(city));
         model.addAttribute("passportPage", passportPage);
         List <Integer> pageNumbers = getPassportPage.getPageCount(passportPage);
         model.addAttribute("pageNumbers", pageNumbers);

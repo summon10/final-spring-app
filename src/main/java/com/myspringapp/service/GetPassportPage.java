@@ -22,7 +22,9 @@ public class GetPassportPage {
         this.passportServiceImpl = passportServiceImpl;
     }
 
-        public Page<Passport> getPage(Optional<Integer> page, Optional<Integer> size, List<Passport> passports) {
+    public Optional<Integer> size = Optional.empty();
+
+        public Page<Passport> getPage(Optional<Integer> page, List<Passport> passports) {
 
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(3);

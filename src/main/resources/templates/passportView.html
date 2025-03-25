@@ -116,6 +116,14 @@
 </tbody>
 
 </table>
+
+<form id="countOnPage" th:action="@{/passportView/setSize}" method="post">
+    <label>Показывать записей на странице:
+        <input type="number" th:name="size" placeholder="Введите число" />
+    </label>
+    <button id="sendSize" type="submit">Изменить</button>
+</form>
+
 <div th:if="${passportPage.totalPages > 0}" class="pagination"
      th:each="pageNumber : ${pageNumbers}">
     <a th:href="@{''(size=${passportPage.size}, page=${pageNumber})}"
